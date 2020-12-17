@@ -2,7 +2,7 @@
 <extension key="nz.co.fuzion.smsextended" type="module">
   <file>smsextended</file>
   <name>Extended SMS support</name>
-  <description>FIXME</description>
+  <description>Extend sms handling in CiviCRM</description>
   <license>AGPL-3.0</license>
   <maintainer>
     <author>Jitendra Purohit</author>
