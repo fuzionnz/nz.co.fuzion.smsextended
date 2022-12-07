@@ -13,15 +13,6 @@ function smsextended_civicrm_config(&$config) {
 }
 
 /**
- * Implements hook_civicrm_xmlMenu().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_xmlMenu
- */
-function smsextended_civicrm_xmlMenu(&$files) {
-  _smsextended_civix_civicrm_xmlMenu($files);
-}
-
-/**
  * Implements hook_civicrm_install().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_install
@@ -35,96 +26,12 @@ function smsextended_civicrm_install() {
 }
 
 /**
- * Implements hook_civicrm_postInstall().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_postInstall
- */
-function smsextended_civicrm_postInstall() {
-  _smsextended_civix_civicrm_postInstall();
-}
-
-/**
- * Implements hook_civicrm_uninstall().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_uninstall
- */
-function smsextended_civicrm_uninstall() {
-  _smsextended_civix_civicrm_uninstall();
-}
-
-/**
  * Implements hook_civicrm_enable().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_enable
  */
 function smsextended_civicrm_enable() {
   _smsextended_civix_civicrm_enable();
-}
-
-/**
- * Implements hook_civicrm_disable().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_disable
- */
-function smsextended_civicrm_disable() {
-  _smsextended_civix_civicrm_disable();
-}
-
-/**
- * Implements hook_civicrm_upgrade().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_upgrade
- */
-function smsextended_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  return _smsextended_civix_civicrm_upgrade($op, $queue);
-}
-
-/**
- * Implements hook_civicrm_managed().
- *
- * Generate a list of entities to create/deactivate/delete when this module
- * is installed, disabled, uninstalled.
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_managed
- */
-function smsextended_civicrm_managed(&$entities) {
-  _smsextended_civix_civicrm_managed($entities);
-}
-
-/**
- * Implements hook_civicrm_caseTypes().
- *
- * Generate a list of case-types.
- *
- * Note: This hook only runs in CiviCRM 4.4+.
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_caseTypes
- */
-function smsextended_civicrm_caseTypes(&$caseTypes) {
-  _smsextended_civix_civicrm_caseTypes($caseTypes);
-}
-
-/**
- * Implements hook_civicrm_angularModules().
- *
- * Generate a list of Angular modules.
- *
- * Note: This hook only runs in CiviCRM 4.5+. It may
- * use features only available in v4.6+.
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_angularModules
- */
-function smsextended_civicrm_angularModules(&$angularModules) {
-  _smsextended_civix_civicrm_angularModules($angularModules);
-}
-
-/**
- * Implements hook_civicrm_alterSettingsFolders().
- *
- * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterSettingsFolders
- */
-function smsextended_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
-  _smsextended_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
 /**
@@ -140,13 +47,6 @@ function smsextended_civicrm_entityTypes(&$entityTypes) {
       $fields['is_sms'] = _getSMSField();
     };
   _smsextended_civix_civicrm_entityTypes($entityTypes);
-}
-
-/**
- * Implements hook_civicrm_thems().
- */
-function smsextended_civicrm_themes(&$themes) {
-  _smsextended_civix_civicrm_themes($themes);
 }
 
 function _getMobileKey($form) {
@@ -209,7 +109,7 @@ function smsextended_civicrm_buildForm($formName, &$form) {
       }
     }
     else {
-      //Remove Element if no mobile type phone is added.
+      // Remove Element if no mobile type phone is added.
       $form->removeElement('is_sms');
     }
   }
@@ -231,26 +131,26 @@ function smsextended_civicrm_buildForm($formName, &$form) {
 /**
  * Save is_sms field in session to retrieve it in pre hook.
  */
-function smsextended_civicrm_postProcess($formName, $form) {
-  if ($form->elementExists('is_sms')) {
-    $mobileKey = _getMobileKey($form);
-    if ($mobileKey && $form->elementExists($mobileKey)) {
-      $params = $form->getVar('_params');
-      $mobilePhoneValue = $params[$mobileKey] ?? $form->_submitValues[$mobileKey];
-      if (!empty($mobilePhoneValue)) {
-        $contactID = $form->getContactId();
-        $session = CRM_Core_Session::singleton();
-        $sessionKey = "{$contactID}-{$mobileKey}";
-        if (!empty($params['is_sms']) || !empty($form->_submitValues['is_sms'])) {
-          $session->set($sessionKey, TRUE);
-        }
-        else {
-          $session->set($sessionKey, FALSE);
-        }
-      }
-    }
-  }
-}
+// function smsextended_civicrm_postProcess($formName, $form) {
+//   if ($form->elementExists('is_sms')) {
+//     $mobileKey = _getMobileKey($form);
+//     if ($mobileKey && $form->elementExists($mobileKey)) {
+//       $params = $form->getVar('_params');
+//       $mobilePhoneValue = $params[$mobileKey] ?? $form->_submitValues[$mobileKey];
+//       if (!empty($mobilePhoneValue)) {
+//         $contactID = $form->getContactId();
+//         $session = CRM_Core_Session::singleton();
+//         $sessionKey = "{$contactID}-{$mobileKey}";
+//         if (!empty($params['is_sms']) || !empty($form->_submitValues['is_sms'])) {
+//           $session->set($sessionKey, TRUE);
+//         }
+//         else {
+//           $session->set($sessionKey, FALSE);
+//         }
+//       }
+//     }
+//   }
+// }
 
 /**
  * Implements hook_civicrm_pre().
@@ -258,17 +158,13 @@ function smsextended_civicrm_postProcess($formName, $form) {
 function smsextended_civicrm_pre($op, $objectName, $id, &$params) {
   if ($objectName == 'Phone' && !empty($params['phone_type_id']) && $op != 'delete') {
     $mobileTypeID = CRM_Core_PseudoConstant::getKey('CRM_Core_BAO_Phone', 'phone_type_id', 'Mobile');
-    if ($params['phone_type_id'] == $mobileTypeID) {
-      $sessionKey = "{$params['contact_id']}-phone-{$params['location_type_id']}-{$mobileTypeID}";
-      $session = CRM_Core_Session::singleton();
-      $params['is_sms'] = $session->get($sessionKey) ? TRUE : FALSE;
+    if ($params['phone_type_id'] != $mobileTypeID) {
+      // $sessionKey = "{$params['contact_id']}-phone-{$params['location_type_id']}-{$mobileTypeID}";
+      // $session = CRM_Core_Session::singleton();
+      // $params['is_sms'] = $session->get($sessionKey) ? TRUE : FALSE;
+      $params['is_sms'] = FALSE;
     }
   }
-
-  // if ($objectName == 'Phone' && !empty($params['phone_type_id'])) {
-  //   $mobileType = CRM_Core_PseudoConstant::getKey('CRM_Core_DAO_Phone', 'phone_type_id', 'Mobile');
-  //   $params['is_sms'] = $params['phone_type_id'] == $mobileType ? TRUE : FALSE;
-  // }
 }
 
 /**
@@ -282,7 +178,7 @@ function smsextended_civicrm_alterUFFields(&$fields) {
  * Implements hook_civicrm_alterMailingRecipients().
  */
 function smsextended_civicrm_alterMailingRecipients(&$mailingObject, &$criteria, $context) {
-  //Return if mailing is not an SMS.
+  // Return if mailing is not an SMS.
   if (CRM_Utils_System::isNull($mailingObject->sms_provider_id)) {
     return;
   }
@@ -292,11 +188,11 @@ function smsextended_civicrm_alterMailingRecipients(&$mailingObject, &$criteria,
     unset($criteria['is_opt_out']);
 
     //Included recipients should have is_sms = 1 for the mobile number.
-    $criteria['phone_is_sms'] = CRM_Utils_SQL_Select::fragment()->where("civicrm_phone.is_sms = 1");
+    $criteria['phone_is_sms'] = CRM_Utils_SQL_Select::fragment()->where("((civicrm_phone.is_sms = 1) OR (civicrm_phone.is_primary = 1))");
   }
   elseif ($context == 'post') {
-    //If a single contact has multiple phone enabled for "is_sms"
-    //include those numbers in the recipients list.
+    // If a single contact has multiple phone enabled for "is_sms"
+    // include those numbers in the recipients list.
     $currentRecipients = civicrm_api3('MailingRecipients', 'get', [
       'sequential' => 1,
       'mailing_id' => $mailingObject->id,
@@ -326,7 +222,6 @@ function smsextended_civicrm_alterMailingRecipients(&$mailingObject, &$criteria,
   }
 }
 
-
 // --- Functions below this ship commented out. Uncomment as required. ---
 
 /**
@@ -334,9 +229,8 @@ function smsextended_civicrm_alterMailingRecipients(&$mailingObject, &$criteria,
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_preProcess
  *
-function smsextended_civicrm_preProcess($formName, &$form) {
 
-} // */
+ // */
 
 /**
  * Implements hook_civicrm_navigationMenu().
